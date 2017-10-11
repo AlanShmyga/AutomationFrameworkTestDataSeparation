@@ -20,4 +20,9 @@ public class DriverFactory {
 
         return driver;
     }
+
+    public static void shutDownDriver() {
+        driver.quit();
+        driver = null;
+    }
 }

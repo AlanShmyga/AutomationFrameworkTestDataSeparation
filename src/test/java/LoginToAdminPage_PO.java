@@ -1,17 +1,14 @@
-import pages.AdminPanel;
+import org.junit.*;
+import pages.AdminPanelPage;
 import pages.LoginToAdminPage;
 import utils.DriverFactory;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
-import org.junit.Assert;
+import utils.PropertyHelper;
 
 public class LoginToAdminPage_PO {
 
-    private final String appLink = "http://localhost/litecart/admin/login.php";
-    private final String username = "admin";
-    private final String password = "admin";
+    String appLink = PropertyHelper.getProperty("appUrl");
+    String username = PropertyHelper.getProperty("username");
+    String password = PropertyHelper.getProperty("password");
 
     @Before
     public void setup() {
@@ -26,12 +23,13 @@ public class LoginToAdminPage_PO {
     @Test
     public void checkThatAdminPanelDirectoriesContainHeaders() {
         new LoginToAdminPage().loginAsUser(username, password);
-
-        Assert.assertTrue(new AdminPanel().isHeaderPresent());
+        Assume.assumeNotNull();
+        Assert.assertTrue(new AdminPanelPage().isHeaderPresent());
+        new LoginToAdminPage().loginAsUser(username, password);
     }
 
     @After
     public void teardown() {
-        DriverFactory.getDriver().quit();
+        DriverFactory.shutDownDriver();
     }
 }

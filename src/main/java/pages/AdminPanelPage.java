@@ -5,12 +5,13 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import utils.DriverFactory;
 
-import java.util.List;
-
-public class AdminPanel {
+public class AdminPanelPage {
 
     @FindBy(id = "box-apps-menu")
     WebElement sideMenuContainer;
+
+    @FindBy(xpath = "//span[text()='Appearence']")
+    WebElement appearenceMenuItem;
 
     public boolean isHeaderPresent() {
         return isElementPresent(By.tagName("h1"));
@@ -18,9 +19,5 @@ public class AdminPanel {
 
     private boolean isElementPresent(By locator) {
         return !DriverFactory.getDriver().findElements(locator).isEmpty();
-    }
-
-    private List<WebElement> getSideMenuContainer() {
-        return sideMenuContainer.findElements(By.id("app-"));
     }
 }
