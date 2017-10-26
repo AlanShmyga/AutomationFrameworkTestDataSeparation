@@ -6,7 +6,7 @@ import utils.PropertyHelper;
 
 public class LoginToAdminPage_PO {
 
-    String appLink = PropertyHelper.getProperty("appUrl");
+    String appLink = PropertyHelper.getProperty("appAdminUrl");
     String username = PropertyHelper.getProperty("username");
     String password = PropertyHelper.getProperty("password");
 

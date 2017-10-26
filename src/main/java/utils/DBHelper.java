@@ -1,5 +1,7 @@
 package utils;
 
+import data_objects.Products;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -9,8 +11,24 @@ import java.util.List;
 
 public class DBHelper {
 
+    public static List<Products> getProducts() throws SQLException {
+        String query = "SELECT * FROM `lc_products`";
+        ResultSet rs = executeQuery(query);
+        List<Products> result = new ArrayList<>();
+
+        while (rs.next()) {
+            Products currentProduct = new Products();
+            currentProduct.setId(rs.getString("id"));
+            currentProduct.setCode(rs.getString("code"));
+            currentProduct.setQuantity(rs.getString("quantity"));
+            result.add(currentProduct);
+        }
+
+        return result;
+    }
+
     public static List<String> getProductNames() throws SQLException {
-        String query = "SELECT name FROM 'lc_products_info'";
+        String query = "SELECT name FROM `lc_products_info`";
         ResultSet rs = executeQuery(query);
         List<String> response = new ArrayList<>();
 
@@ -25,7 +43,6 @@ public class DBHelper {
         ResultSet response = null;
         try {
             response = connection.prepareStatement(query).executeQuery();
-            connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -38,16 +55,9 @@ public class DBHelper {
         String dbPassword = PropertyHelper.getProperty("dbPassword");
         Connection connection = null;
         try {
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
-            DriverManager.getDriver(PropertyHelper.getProperty("dbDriverUrl"));
+            //DriverManager.getDriver(PropertyHelper.getProperty("dbDriverUrl"));
             connection = DriverManager.getConnection(databaseUrl, dbUser, dbPassword);
         } catch (SQLException  e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
         return connection;
